@@ -1,49 +1,70 @@
-'use client';  // Add this directive at the top of the file to mark it as a client component
+'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation'; // To access the dynamic route parameter (id)
+import { useParams } from 'next/navigation';
 
 const CardPage = () => {
-    const { id } = useParams(); // Access the dynamic `id` from the URL
+    const { id } = useParams();
     const [card, setCard] = useState(null);
 
     useEffect(() => {
         if (id) {
-            // Fetch card data based on the `id`
-            fetch(`https://cadworkbridge.fly.dev/core_cards/${id}/`)
+            fetch(`https://cadworkbridge.fly.dev/cards/${id}/`)
                 .then((response) => response.json())
-                .then((data) => setCard(data));  // Store the data in the state
+                .then((data) => setCard(data))
+                .catch((error) => console.error('Failed to fetch card:', error));
         }
     }, [id]);
 
-    if (!card) return <p>Loading...</p>;
+    if (!card) return <p className="text-center py-10">Loading...</p>;
 
     return (
         <div className="container mx-auto px-4 py-8">
             <h1 className="text-4xl font-semibold mb-6">{card.title}</h1>
-            <img
-                src={`https://res.cloudinary.com/dszsesw4g/${card.image}`}
-                alt={card.title}
-                className="w-full h-[400px] object-cover"
-            />
-            <p className="mt-4">{card.description}</p>
 
-            {/* Display additional links if available */}
-            {card.youtube_link && (
-                <a href={card.youtube_link} className="btn btn-danger mt-4" target="_blank">
-                    Watch Video
-                </a>
+            {card.image && (
+                <img
+                    src={card.image}
+                    alt={card.title}
+                    className="w-full h-[400px] object-cover rounded-lg shadow mb-6"
+                    onError={(e) => (e.target.src = '/default-image.jpg')}
+                />
             )}
-            {card.pdf_file && (
-                <a href={card.pdf_file} className="btn btn-primary mt-4" target="_blank">
-                    Download PDF
-                </a>
-            )}
-            {card.extra_file && (
-                <a href={card.extra_file} className="btn btn-secondary mt-4" target="_blank">
-                    Extra File
-                </a>
-            )}
+
+            <p className="text-lg text-gray-700 mb-6">{card.description}</p>
+
+            <div className="space-x-4">
+                {card.youtube_link && (
+                    <a
+                        href={card.youtube_link}
+                        className="inline-block bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Watch Video
+                    </a>
+                )}
+                {card.pdf_file && (
+                    <a
+                        href={card.pdf_file}
+                        className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Download PDF
+                    </a>
+                )}
+                {card.extra_file && (
+                    <a
+                        href={card.extra_file}
+                        className="inline-block bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Extra File
+                    </a>
+                )}
+            </div>
         </div>
     );
 };

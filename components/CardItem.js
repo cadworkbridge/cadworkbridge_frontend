@@ -1,17 +1,15 @@
 import Link from 'next/link';
 
-const ListCardItem = ({ id, title, description, image, youtubeLink, pdfFile, extraFile }) => {
-    const imageUrl = `https://res.cloudinary.com/dszsesw4g/${image}`; // Construct the full image URL
-
+const CardItem = ({ id, title, description, image, youtubeLink, pdfFile, extraFile }) => {
     return (
         <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white">
-            {/* Corrected Link Usage */}
+            {/* Image with fallback */}
             <Link href={`/card/${id}`}>
                 <img
-                    src={imageUrl}  // Dynamically created image URL
+                    src={image}
                     alt={title}
                     className="w-full h-[200px] object-cover"
-                    onError={(e) => e.target.src = '/default-image.jpg'} // Fallback image
+                    onError={(e) => (e.target.src = '/default-image.jpg')}
                 />
             </Link>
 
@@ -24,17 +22,17 @@ const ListCardItem = ({ id, title, description, image, youtubeLink, pdfFile, ext
             {/* Card Footer Links */}
             <div className="px-6 py-4 flex justify-between items-center">
                 {youtubeLink && (
-                    <a href={youtubeLink} className="text-blue-500 hover:text-blue-700">
+                    <a href={youtubeLink} className="text-blue-500 hover:text-blue-700" target="_blank" rel="noopener noreferrer">
                         Watch Video
                     </a>
                 )}
                 {pdfFile && (
-                    <a href={pdfFile} className="text-blue-500 hover:text-blue-700">
+                    <a href={pdfFile} className="text-blue-500 hover:text-blue-700" target="_blank" rel="noopener noreferrer">
                         Download PDF
                     </a>
                 )}
                 {extraFile && (
-                    <a href={extraFile} className="text-blue-500 hover:text-blue-700">
+                    <a href={extraFile} className="text-blue-500 hover:text-blue-700" target="_blank" rel="noopener noreferrer">
                         Extra File
                     </a>
                 )}
@@ -43,4 +41,4 @@ const ListCardItem = ({ id, title, description, image, youtubeLink, pdfFile, ext
     );
 };
 
-export default ListCardItem;
+export default CardItem;

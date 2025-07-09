@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import ListCardItem from './ListCardItem';  // Import ListCardItem component
+import CardItem from './CardItem';  // Import CardItem component
 
-const ListCards = () => {
+const CardsList = () => {
     const [cards, setCards] = useState([]);
 
     useEffect(() => {
@@ -17,15 +17,15 @@ const ListCards = () => {
         <div className="container mx-auto px-4 py-8">
             <h1 className="text-4xl font-semibold mb-6">Core Cards</h1>
 
-            {/* Render ListCardItem for each card */}
+            {/* Render CardItem for each card */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {cards.map((card) => (
-                    <ListCardItem
+                    <CardItem
                         key={card.id}
-                        id={card.id}  // Pass card id to ListCardItem
+                        id={card.id}  // Pass card id to CardItem
                         title={card.title}
                         description={card.description}
-                        image={card.image}  // Pass image URL to ListCardItem
+                        image={card.image}  // Pass image URL to CardItem
                         youtubeLink={card.youtube_link}
                         pdfFile={card.pdf_file}
                         extraFile={card.extra_file}
@@ -36,4 +36,4 @@ const ListCards = () => {
     );
 };
 
-export default ListCards;
+export default CardsList;
