@@ -20,8 +20,9 @@ export default function RegisterPage() {
 
         try {
             await register(email, password, firstName)
-            await dispatch(fetchUser())
-            router.push('/')
+            setError('')  // Clear any previous errors
+            alert('Registration successful! Please check your email to activate your account.')
+            router.push('/login') // Redirect to login instead of home
         } catch (err) {
             const message =
                 err?.response?.data?.detail || err?.message || 'Registration failed'
